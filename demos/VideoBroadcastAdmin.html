@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">
+
+    <title>Video Broadcasting Admin</title>
+
+    <style>
+        video {
+            object-fit: fill;
+            width: 100%;
+        }
+        button,
+        input,
+        select {
+            font-weight: normal;
+            padding: 2px 4px;
+            text-decoration: none;
+            display: inline-block;
+            text-shadow: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .make-center {
+            text-align: center;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+
+        <div id="videos-container"></div>
+
+        <script src="/dist/rmc3.min.js"></script>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <script>
+        
+        	function getParameterByName(name)
+			{
+				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+				results = regex.exec(location.search);
+				return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
+        	var roomID = getParameterByName("room");
+            var connection = new RTCMultiConnection();
+
+            connection.socketURL = '/';
+
+            connection.socketMessageEvent = 'video-broadcast-demo';
+
+            connection.session = {
+                audio: true,
+                video: true,
+                oneway: true
+            };
+
+            connection.videosContainer = document.getElementById('videos-container');
+            connection.onstream = function(event) {
+                connection.videosContainer.appendChild(event.mediaElement);
+                event.mediaElement.play();
+                setTimeout(function() {
+                    event.mediaElement.play();
+                }, 5000);
+            };
+            connection.sdpConstraints.mandatory = {
+                OfferToReceiveAudio: false,
+                OfferToReceiveVideo: false
+            };
+            connection.open(roomID, function() {
+            });
+            
+
+        </script>
+
+       
+    </article>
+
+    <footer>
+    </footer>
+
+</body>
+
+</html>
