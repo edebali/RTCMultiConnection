@@ -51,8 +51,8 @@
 				}, 1000);
 			};
 			//connection.connect();
-			//connection.open(roomID);
-
+			connection.open(roomID);
+/*
 var SIGNALING_SERVER = 'http://144.122.180.94:8888/';
 var mainSocket = io.connect(SIGNALING_SERVER);
 connection.openSignalingChannel = function(config) {
@@ -82,7 +82,7 @@ console.log('is channel present', isChannelPresent);
 
 connection.open(getParameterByName("room")); // open new room
 });
-mainSocket.emit('presence', connection.channel);
+mainSocket.emit('presence', connection.channel);*/
 
         </script>      
     </body>
